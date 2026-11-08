@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d5d0c5">
+<title>Wall — take a moment</title>
+<meta name="description" content="A quiet wall and a little time to do nothing.">
+<style>
+:root{color-scheme:light;--wall:#d5d0c5;--ink:#49483f;--muted:#747269;--panel:rgba(237,234,225,.76);--border:rgba(67,64,54,.15);--shadow:rgba(48,43,32,.1);--glow:rgba(255,255,255,.38)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{background:var(--wall);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background 1s,color 1s;overflow:hidden}body.dark{color-scheme:dark;--wall:#292b29;--ink:#deded4;--muted:#a3a49c;--panel:rgba(46,48,45,.8);--border:rgba(230,230,214,.13);--shadow:rgba(0,0,0,.22);--glow:rgba(255,255,255,.05)}
+.wall{position:fixed;inset:0;background:radial-gradient(ellipse at 48% 30%,var(--glow),transparent 65%),linear-gradient(105deg,rgba(0,0,0,.035),transparent 30%,transparent 75%,rgba(0,0,0,.045));pointer-events:none}.wall:after{content:"";position:absolute;inset:0;opacity:.17;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");mix-blend-mode:multiply}
+.controls{position:fixed;inset:0;pointer-events:none;opacity:1;transition:opacity .8s ease}.controls.hidden{opacity:0}.controls>*{pointer-events:auto}.brand{position:absolute;top:36px;left:42px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}.top-actions{position:absolute;top:25px;right:32px;display:flex;gap:8px}.icon-button,.text-button{font:inherit;color:var(--ink);border:1px solid transparent;background:transparent;cursor:pointer}.icon-button{width:42px;height:42px;display:grid;place-items:center;border-radius:50%}.icon-button:hover,.icon-button:focus-visible{background:var(--panel);border-color:var(--border)}svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.bottom{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:23px;padding:13px 18px 13px 21px;border:1px solid var(--border);border-radius:16px;background:var(--panel);box-shadow:0 10px 35px var(--shadow);backdrop-filter:blur(16px);white-space:nowrap}.time{font-size:20px;font-weight:400;letter-spacing:.035em;font-variant-numeric:tabular-nums;min-width:63px}.divider{width:1px;height:28px;background:var(--border)}.target{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.target input{width:38px;padding:4px 0;text-align:center;border:0;border-bottom:1px solid var(--border);outline:none;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-variant-numeric:tabular-nums}.target input:focus{border-color:var(--ink)}.actions{display:flex;gap:2px}.actions .icon-button{width:34px;height:34px}.actions svg{width:16px;height:16px}.hint{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;color:var(--muted);white-space:nowrap}.done{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--ink);font-family:Georgia,serif;font-size:clamp(25px,4vw,40px);font-weight:400;letter-spacing:.02em;opacity:0;transition:opacity 1s;pointer-events:none}.done.visible{opacity:.8}.done span{display:block;margin-top:12px;font:10px ui-sans-serif,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}button:focus-visible,input:focus-visible{outline:2px solid currentColor;outline-offset:3px}@media(max-width:520px){.brand{top:29px;left:24px}.top-actions{top:18px;right:18px}.bottom{bottom:32px;gap:12px;padding:11px 13px}.hint{bottom:8px;font-size:9px}.time{font-size:18px;min-width:56px}.target{gap:4px}.target input{width:30px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wall" aria-hidden="true"></div>
+<div class="done" id="done" role="status" aria-live="polite">Done<span>Take your time coming back</span></div>
+<div class="controls" id="controls">
+  <div class="brand">A little time for nothing</div>
+  <div class="top-actions">
+    <button class="icon-button" id="theme" aria-label="Switch to dark wall" title="Switch wall color"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/></svg></button>
+    <button class="icon-button" id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5"/></svg></button>
+  </div>
+  <div class="bottom" aria-label="Timer controls">
+    <div class="time" id="time" aria-label="Elapsed time">00:00</div><div class="divider"></div>
+    <label class="target" for="minutes">of <input id="minutes" type="number" min="1" max="1440" step="1" value="10" inputmode="numeric"> min</label>
+    <div class="divider"></div><div class="actions">
+      <button class="icon-button" id="pause" aria-label="Pause timer" title="Pause"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button>
+      <button class="icon-button" id="restart" aria-label="Restart timer" title="Restart"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button>
+    </div>
+  </div>
+  <div class="hint">Move your mouse or tap to show controls</div>
+</div>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id), controls=$('controls'), time=$('time'), minutes=$('minutes'), done=$('done'), pause=$('pause'), theme=$('theme');
+ let elapsed=0, started=performance.now(), running=true, finished=false, hideTimeout;
+ const readElapsed=()=>elapsed+(running?performance.now()-started:0);
+ const limit=()=>Math.max(1,Math.min(1440,Number(minutes.value)||10))*60000;
+ function showControls(){controls.classList.remove('hidden');clearTimeout(hideTimeout);hideTimeout=setTimeout(()=>{if(!controls.contains(document.activeElement)) controls.classList.add('hidden')},3000)}
+ function render(){let ms=readElapsed();if(!finished&&ms>=limit()){elapsed=limit();running=false;finished=true;ms=elapsed;done.classList.add('visible');updatePause()}const seconds=Math.floor(ms/1000), m=Math.floor(seconds/60), s=seconds%60;time.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');requestAnimationFrame(render)}
+ function updatePause(){pause.setAttribute('aria-label',running?'Pause timer':'Resume timer');pause.title=running?'Pause':'Resume';pause.innerHTML=running?'<svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'}
+ pause.addEventListener('click',()=>{if(finished)return;if(running){elapsed=readElapsed();running=false}else{started=performance.now();running=true}updatePause()});
+ $('restart').addEventListener('click',()=>{elapsed=0;started=performance.now();running=true;finished=false;done.classList.remove('visible');updatePause()});
+ minutes.addEventListener('change',()=>{minutes.value=Math.max  (1,Math.min(1440,Math.round(Number(minutes.value)||10)));if(finished&&elapsed<limit()){finished=false;done.classList.remove('visible');started=performance.now();running=true;updatePause()}});
+ function setTheme(dark){document.body.classList.toggle('dark',dark);theme.setAttribute('aria-label',dark?'Switch to light wall':'Switch to dark wall');$('themeIcon').innerHTML=dark?'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>':'<path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/>';try{localStorage.setItem('wall-dark',dark?'1':'0')}catch(e){}}
+ let dark=false;try{dark=localStorage.getItem('wall-dark')==='1'}catch(e){}setTheme(dark);theme.addEventListener('click',()=>setTheme(!document.body.classList.contains('dark')));
+ $('fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){}});document.addEventListener('fullscreenchange',()=>$('fullscreen').setAttribute('aria-label',document.fullscreenElement?'Exit fullscreen':'Enter fullscreen'));
+ ['pointermove','pointerdown','keydown','focusin'].forEach(event=>document.addEventListener(event,showControls));document.addEventListener('focusout',showControls);showControls();render();
+})();
+</script>
+</body>
+</html>
